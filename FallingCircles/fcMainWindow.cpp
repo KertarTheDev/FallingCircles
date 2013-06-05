@@ -1,4 +1,4 @@
-#include "cfcMainWindow.h"
+#include "fcMainWindow.h"
 
 //==========================================================================
 CfcMainWindow::CfcMainWindow(QWidget *parent)

@@ -13,6 +13,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        cfcMainWindow.cpp
+        fcMainWindow.cpp
 
-HEADERS  += cfcMainWindow.h
+HEADERS  += fcMainWindow.h

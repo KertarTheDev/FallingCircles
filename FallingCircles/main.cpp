@@ -1,4 +1,4 @@
-#include "cfcMainWindow.h"
+#include "fcMainWindow.h"
 #include <QtOpenGL/QtOpenGL>
 
 int main(int argc, char *argv[])
