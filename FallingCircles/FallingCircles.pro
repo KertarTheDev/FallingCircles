@@ -13,6 +13,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        fcMainWindow.cpp
+        fcMainWindow.cpp \
+	    fcRendererGL.cpp
 
-HEADERS  += fcMainWindow.h
+HEADERS  += fcMainWindow.h \
+    	fcRendererGL.h

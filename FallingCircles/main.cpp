@@ -1,5 +1,5 @@
 #include "fcMainWindow.h"
-#include <QtOpenGL/QtOpenGL>
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
