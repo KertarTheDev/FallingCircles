@@ -14,8 +14,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         fcMainWindow.cpp \
-	    fcRendererGL.cpp
+	    fcRendererGL.cpp \
+    fcFallingCircle.cpp
 
 HEADERS  += fcMainWindow.h \
     	fcRendererGL.h \
-    	fcFallingObject.h
+    	fcFallingObject.h \
+    fcFallingCircle.h
