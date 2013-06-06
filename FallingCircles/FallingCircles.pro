@@ -16,10 +16,12 @@ SOURCES += main.cpp\
         fcMainWindow.cpp \
 	    fcRendererGL.cpp \
     	fcFallingCircle.cpp \
-    	fcFallingObjectGL.cpp
+    	fcFallingObjectGL.cpp \
+    fcFallingCircleGL.cpp
 
 HEADERS  += fcMainWindow.h \
     	fcRendererGL.h \
     	fcFallingObject.h \
     	fcFallingCircle.h \
-    	fcFallingObjectGL.h
+    	fcFallingObjectGL.h \
+    fcFallingCircleGL.h
