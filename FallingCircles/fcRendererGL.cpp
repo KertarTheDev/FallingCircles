@@ -38,7 +38,7 @@ void CfcRendererGL::resizeGL(int nWidth, int nHeight)
     //The coordinate system should be set up based on the playing field properties
     //This is just a placeholder for now.
     //left right bottom top zNear zFar
-    glOrtho(0.0,1.0, 0.0,1.0, 0.0,1.0);
+    glOrtho(0.0,1.0, 1.0,0.0, 0.0,1.0);
 }
 //==========================================================================
 //! \brief Renders current scene using vertex arrays
