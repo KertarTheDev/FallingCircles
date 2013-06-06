@@ -17,4 +17,5 @@ SOURCES += main.cpp\
 	    fcRendererGL.cpp
 
 HEADERS  += fcMainWindow.h \
-    	fcRendererGL.h
+    	fcRendererGL.h \
+    	fcFallingObject.h
