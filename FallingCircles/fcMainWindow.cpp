@@ -15,7 +15,7 @@ CfcMainWindow::CfcMainWindow(QWidget *parent): QWidget(parent)
 
     //set up window properties
     this->setLayout(mainLayout);
-    this->resize(400,600);
+    this->resize(600,600);
 }
 //==========================================================================
 CfcMainWindow::~CfcMainWindow()

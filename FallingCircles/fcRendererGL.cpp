@@ -1,21 +1,16 @@
 #include "fcRendererGL.h"
-
+#include "fcFallingCircleGL.h"
 //==========================================================================
 //! \brief Default auto generated constructor.
 //! Currently just sets up a default scene for testing
 CfcRendererGL::CfcRendererGL(QWidget *parent) : QGLWidget(parent)
 {
-    //Set up vertex array to contain a test triangle
-    this->vertexArray = QSharedPointer<QVector<float> >(new QVector<float>);
-    *this->vertexArray  << 0.0 << 1.0
-                        << 0.5 << 0.0
-                        << 1.0 << 0.5;
+    //top left corner of bounding box, unused speed, unsused score, radius
+    CfcFallingCircle testCircle(QPointF((float)qrand()/RAND_MAX,(float)qrand()/RAND_MAX), 1.0, 1.0, 0.06);
+    CfcFallingCircleGL testCircleGL(&testCircle);
 
-    //Colour up the test triangle
-    this->colorArray = QSharedPointer<QVector<float> >(new QVector<float>);
-    *this->colorArray   << 1.0 << 0.0 << 0.0
-                        << 0.0 << 1.0 << 0.0
-                        << 0.0 << 0.0 << 1.0;
+    this->vertexArray = testCircleGL.getVertexArray();
+    this->colorArray = testCircleGL.getColorArray();
 }
 //==========================================================================
 //! \brief Does initial set up of general opengl window properties

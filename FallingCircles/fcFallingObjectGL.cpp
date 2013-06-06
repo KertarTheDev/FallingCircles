@@ -1,5 +1,6 @@
 #include "fcFallingObjectGL.h"
 
+//==========================================================================
 CfcFallingObjectGL::CfcFallingObjectGL(): mObject(0)
 {
     this->mVertexArray  = QSharedPointer<QVector<float> >(new QVector<float>);
@@ -7,7 +8,7 @@ CfcFallingObjectGL::CfcFallingObjectGL(): mObject(0)
 
     prepareArrays();
 }
-
+//==========================================================================
 //! \brief This virtual function converts a CfcFallingObject into geometry
 //! and colour arrays required by the renderer and should be reimplemented in every subclass
 //! This default implementation just draws a test triangle and ignores associated object.
@@ -23,4 +24,4 @@ void CfcFallingObjectGL::prepareArrays()
                         << 0.0 << 1.0 << 0.0
                         << 0.0 << 0.0 << 1.0;
 }
-
+//==========================================================================
