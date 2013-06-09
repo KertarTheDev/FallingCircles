@@ -1,6 +1,12 @@
 #include "fcFallingCircleGL.h"
+#include "fcFallingCircle.h"
+#include "fcGameSettings.h"
+#include "fcUtilities.h"
 #include <cmath>
 #include <QVector3D>
+
+using namespace NfcGameSettings;
+using namespace NfcUtilities;
 
 //==========================================================================
 CfcFallingCircleGL::CfcFallingCircleGL(CfcFallingCircle *circle)
@@ -17,6 +23,47 @@ CfcFallingCircleGL::CfcFallingCircleGL(CfcFallingCircle *circle)
 void CfcFallingCircleGL::prepareArrays()
 {
 // Prepare geometry
+    prepareVertexArray();
+
+// Add some random colours
+    prepareColorArray();
+}
+//==========================================================================
+void CfcFallingCircleGL::prepareColorArray()
+{
+    //update colour array only if the number of vertices changed to avoid colour flickering
+    if((this->mColorArray->size()/valuesPerColor) != (this->mVertexArray->size()/coordsPerVertex))
+    {
+        QVector3D centerColor(uniformRandomVal(),uniformRandomVal(), uniformRandomVal());
+        QVector3D previousColor(uniformRandomVal(),uniformRandomVal(), uniformRandomVal());
+        for(int i=1;i<samplesPerCircle+1;++i)
+        {
+            QVector3D nextColor(uniformRandomVal(),uniformRandomVal(), uniformRandomVal());
+
+            this->mColorArray->push_back(centerColor.x());
+            this->mColorArray->push_back(centerColor.y());
+            this->mColorArray->push_back(centerColor.z());
+
+            this->mColorArray->push_back(previousColor.x());
+            this->mColorArray->push_back(previousColor.y());
+            this->mColorArray->push_back(previousColor.z());
+
+            this->mColorArray->push_back(nextColor.x());
+            this->mColorArray->push_back(nextColor.y());
+            this->mColorArray->push_back(nextColor.z());
+
+            previousColor = nextColor;
+        }
+        //last vertex is special, color has to coincide with the second vertex (first one is center)
+        int lastColorStartIndex = this->mColorArray->size()-3;
+        (*this->mColorArray)[lastColorStartIndex] = this->mColorArray->at(3);
+        (*this->mColorArray)[lastColorStartIndex+1] = this->mColorArray->at(4);
+        (*this->mColorArray)[lastColorStartIndex+2] = this->mColorArray->at(5);
+    }
+}
+//==========================================================================
+void CfcFallingCircleGL::prepareVertexArray()
+{
     this->mVertexArray->clear();
 
     // aux variables
@@ -42,39 +89,5 @@ void CfcFallingCircleGL::prepareArrays()
 
         previousVertex = vertex;
     }
-
-// Add some random colours
-    this->mColorArray->clear();
-    QVector3D centerColor(randomColorVal(),randomColorVal(), randomColorVal());
-    QVector3D previousColor(randomColorVal(),randomColorVal(), randomColorVal());
-    for(int i=1;i<samplesPerCircle+1;++i)
-    {
-        QVector3D nextColor(randomColorVal(),randomColorVal(), randomColorVal());
-
-        this->mColorArray->push_back(centerColor.x());
-        this->mColorArray->push_back(centerColor.y());
-        this->mColorArray->push_back(centerColor.z());
-
-        this->mColorArray->push_back(previousColor.x());
-        this->mColorArray->push_back(previousColor.y());
-        this->mColorArray->push_back(previousColor.z());
-
-        this->mColorArray->push_back(nextColor.x());
-        this->mColorArray->push_back(nextColor.y());
-        this->mColorArray->push_back(nextColor.z());
-
-        previousColor = nextColor;
-    }
-    //last vertex is special, color has to coincide with the second vertex (first one is center)
-    int lastColorStartIndex = this->mColorArray->size()-3;
-    (*this->mColorArray)[lastColorStartIndex] = this->mColorArray->at(3);
-    (*this->mColorArray)[lastColorStartIndex+1] = this->mColorArray->at(4);
-    (*this->mColorArray)[lastColorStartIndex+2] = this->mColorArray->at(5);
-}
-//==========================================================================
-//! \brief Returns a pseudo-random value in the range [0,1]
-float CfcFallingCircleGL::randomColorVal()
-{
-    return static_cast<float>(qrand())/RAND_MAX;
 }
 //==========================================================================

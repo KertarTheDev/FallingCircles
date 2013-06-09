@@ -17,11 +17,21 @@ SOURCES += main.cpp\
 	    fcRendererGL.cpp \
     	fcFallingCircle.cpp \
     	fcFallingObjectGL.cpp \
-    fcFallingCircleGL.cpp
+        fcFallingCircleGL.cpp \
+        fcGameField.cpp \
+        fcGameEngine.cpp \
+        fcUtilities.cpp \
+        fcGameFieldGL.cpp \
+        fcFallingObject.cpp
 
 HEADERS  += fcMainWindow.h \
     	fcRendererGL.h \
     	fcFallingObject.h \
     	fcFallingCircle.h \
     	fcFallingObjectGL.h \
-    fcFallingCircleGL.h
+        fcFallingCircleGL.h \
+        fcGameField.h \
+        fcGameEngine.h \
+        fcGameSettings.h \
+        fcUtilities.h \
+        fcGameFieldGL.h

@@ -10,8 +10,12 @@ public:
     CfcFallingCircle(QPointF position, float speed, int scoreValue, float radius)
         : CfcFallingObject(position, speed, scoreValue), mRadius(radius){}
 
+    virtual ~CfcFallingCircle(){}
+
     float radius() const {return this->mRadius;}
     void setRadius(float radius) {this->mRadius = radius;}
+
+    /*virtual*/ CfcFallingObjectGlSP renderingData();
 
 protected:
     float mRadius;

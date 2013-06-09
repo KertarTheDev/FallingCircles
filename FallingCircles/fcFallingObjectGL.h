@@ -2,17 +2,17 @@
 
 #include <QVector>
 #include <QSharedPointer>
-#include "fcFallingObject.h"
+class CfcFallingObject;
 
 class CfcFallingObjectGL
 {
 public:
     CfcFallingObjectGL();
+    virtual ~CfcFallingObjectGL(){}
 
     QSharedPointer<QVector<float> > getVertexArray() {return this->mVertexArray;}
     QSharedPointer<QVector<float> > getColorArray() {return this->mColorArray;}
 
-protected:
     virtual void prepareArrays();
 
 protected:

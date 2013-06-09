@@ -1,16 +1,15 @@
 #include "fcRendererGL.h"
-#include "fcFallingCircleGL.h"
+#include "fcGameSettings.h"
+
+using namespace NfcGameSettings;
+
 //==========================================================================
 //! \brief Default auto generated constructor.
 //! Currently just sets up a default scene for testing
 CfcRendererGL::CfcRendererGL(QWidget *parent) : QGLWidget(parent)
 {
-    //top left corner of bounding box, unused speed, unsused score, radius
-    CfcFallingCircle testCircle(QPointF((float)qrand()/RAND_MAX,(float)qrand()/RAND_MAX), 1.0, 1.0, 0.06);
-    CfcFallingCircleGL testCircleGL(&testCircle);
-
-    this->vertexArray = testCircleGL.getVertexArray();
-    this->colorArray = testCircleGL.getColorArray();
+    this->vertexArray = QSharedPointer<QVector<float> >(new QVector<float>);
+    this->colorArray = QSharedPointer<QVector<float> >(new QVector<float>);
 }
 //==========================================================================
 //! \brief Does initial set up of general opengl window properties
@@ -30,7 +29,10 @@ void CfcRendererGL::initializeGL()
 //! \brief Resize event handler. Updates viewport geometry.
 void CfcRendererGL::resizeGL(int nWidth, int nHeight)
 {
-    glViewport(0,0,(GLint)nWidth,(GLint)nHeight);
+    int widthToUse = nHeight*gameFieldWidth/gameFieldHeight;
+    int halfOfUnusedWidth = (nWidth-widthToUse)/2;
+
+    glViewport(halfOfUnusedWidth,0,(GLint)widthToUse,(GLint)nHeight);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -38,7 +40,7 @@ void CfcRendererGL::resizeGL(int nWidth, int nHeight)
     //The coordinate system should be set up based on the playing field properties
     //This is just a placeholder for now.
     //left right bottom top zNear zFar
-    glOrtho(0.0,1.0, 1.0,0.0, 0.0,1.0);
+    glOrtho(0.0,gameFieldWidth, gameFieldHeight,0.0, 0.0,1.0);
 }
 //==========================================================================
 //! \brief Renders current scene using vertex arrays

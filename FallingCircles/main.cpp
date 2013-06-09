@@ -1,4 +1,5 @@
 #include "fcMainWindow.h"
+#include "fcGameEngine.h"
 #include <QApplication>
 #include <QDateTime>
 
@@ -11,6 +12,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     CfcMainWindow w;
     w.show();
+
+    CfcGameEngine gameEngine(w.getRenderer());
+    gameEngine.start();
     
     return a.exec();
 }

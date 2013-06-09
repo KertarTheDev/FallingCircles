@@ -1,8 +1,10 @@
 #include "fcMainWindow.h"
-#include "fcRendererGL.h"
-
 #include <QVBoxLayout>
+#include "fcGameSettings.h"
+#include <QResizeEvent>
+#include <QLCDNumber>
 
+using namespace NfcGameSettings;
 //==========================================================================
 CfcMainWindow::CfcMainWindow(QWidget *parent): QWidget(parent)
 {
@@ -10,12 +12,16 @@ CfcMainWindow::CfcMainWindow(QWidget *parent): QWidget(parent)
     QVBoxLayout* mainLayout = new QVBoxLayout;
 
     //playing field renderer
-    CfcRendererGL* playingField = new CfcRendererGL();
-    mainLayout->addWidget(playingField);
+    mRenderer = QSharedPointer<CfcRendererGL>(new CfcRendererGL());
+    mainLayout->addWidget(mRenderer.data(),7);
+
+    QLCDNumber* scoreWidget = new QLCDNumber(6);
+    scoreWidget->display(999999);
+    mainLayout->addWidget(scoreWidget,1);
 
     //set up window properties
     this->setLayout(mainLayout);
-    this->resize(600,600);
+    this->resize(500*gameFieldWidth,500*gameFieldHeight);
 }
 //==========================================================================
 CfcMainWindow::~CfcMainWindow()

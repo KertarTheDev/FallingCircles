@@ -1,7 +1,7 @@
 #pragma once
 
 #include "fcFallingObjectGL.h"
-#include "fcFallingCircle.h"
+class CfcFallingCircle;
 
 class CfcFallingCircleGL : public CfcFallingObjectGL
 {
@@ -10,11 +10,11 @@ private:
 
 public:
     CfcFallingCircleGL(CfcFallingCircle* circle);
+    virtual ~CfcFallingCircleGL(){}
 
-protected:
-    void prepareArrays();
-    float randomColorVal();
+    /*virtual*/ void prepareArrays();
 
-protected:
-    static const int samplesPerCircle = 36; //why not? :)
+private:
+    void prepareColorArray();
+    void prepareVertexArray();
 };

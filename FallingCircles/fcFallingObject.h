@@ -1,16 +1,28 @@
 #pragma once
 
 #include <QPoint>
+#include <QSharedPointer>
 
+class CfcFallingObject;
+typedef QSharedPointer<CfcFallingObject> CfcFallingObjectSP;
+
+class CfcFallingObjectGL;
+typedef QSharedPointer<CfcFallingObjectGL> CfcFallingObjectGlSP;
+
+//==========================================================================
 class CfcFallingObject
 {
 
 public:
-    CfcFallingObject(): mPosition(0,0), mFallSpeed(1.0), mScorePoints(1){}
+    //Constructors
+    CfcFallingObject();
+    CfcFallingObject(QPointF position, float speed, int scoreValue);
+    virtual ~CfcFallingObject(){}
 
-    CfcFallingObject(QPointF position, float speed, int scoreValue)
-        : mPosition(position), mFallSpeed(speed), mScorePoints(scoreValue){}
+    //Manipulation functions
+    void move(QPointF movementVector);
 
+    //Getters/setters
     QPointF position() const {return this->mPosition;}
     void setPosition(QPointF position) {this->mPosition = position;}
 
@@ -20,9 +32,12 @@ public:
     int scorePoints()const{return this->mScorePoints;}
     void setScorePoints(int scoreValue){this->mScorePoints = scoreValue;}
 
+    virtual CfcFallingObjectGlSP renderingData();
+
 protected:
     QPointF mPosition;   //coordinates of top left corner of the objects bounding box
     float mFallSpeed;
     int mScorePoints;
+    CfcFallingObjectGlSP mRenderingData; //should be different for different falling objects
 };
-
+//==========================================================================

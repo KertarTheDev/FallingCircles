@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QWidget>
+#include "fcRendererGL.h"
 
 class CfcMainWindow : public QWidget
 {
@@ -9,4 +9,9 @@ class CfcMainWindow : public QWidget
 public:
     CfcMainWindow(QWidget *parent = 0);
     ~CfcMainWindow();
+
+    QSharedPointer<CfcRendererGL> getRenderer(){return this->mRenderer;}
+
+protected:
+    QSharedPointer<CfcRendererGL> mRenderer;
 };
