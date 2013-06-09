@@ -5,26 +5,32 @@
 
 class CfcRendererGL;
 
-class CfcGameEngine : QObject
+class CfcGameEngine : public QObject
 {
     Q_OBJECT
 
 private:
-    CfcGameEngine(){}
+    CfcGameEngine(QObject *parent = 0):QObject(parent){}
 
 public:
-    CfcGameEngine(QSharedPointer<CfcRendererGL> renderer);
+    CfcGameEngine(QSharedPointer<CfcRendererGL> renderer, QObject *parent = 0);
 
     void start();
 
-    CfcFallingObjectSP generateCircle();
+signals:
+    void signalCurrentScore(int score);
+
 protected:
     void updateExistingObjects();
     void renderCurrentState();
+    CfcFallingObjectSP generateCircle();
+    void increaseScore(int pointsToAdd);
+    void decreaseScore(int pointsToAdd);
 
 protected slots:
     void slotUpdateGameState();
     void slotSpawnNewObjects();
+    void slotHandleClick(QPointF pos);
 
 protected:
     QTimer mUpdateTimer;
@@ -32,4 +38,5 @@ protected:
     CfcGameField mGameField;
     QSharedPointer<CfcGameFieldGL> mGameFieldGL;
     QSharedPointer<CfcRendererGL> mRenderer;
+    int mScore;
 };

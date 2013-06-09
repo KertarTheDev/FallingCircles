@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     w.show();
 
     CfcGameEngine gameEngine(w.getRenderer());
+    QObject::connect(&gameEngine, SIGNAL(signalCurrentScore(int)), &w, SLOT(slotSetScore(int)), Qt::UniqueConnection);
     gameEngine.start();
     
     return a.exec();

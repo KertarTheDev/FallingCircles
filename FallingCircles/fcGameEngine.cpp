@@ -8,16 +8,19 @@ using namespace NfcGameSettings;
 using namespace NfcUtilities;
 
 //==========================================================================
-CfcGameEngine::CfcGameEngine(QSharedPointer<CfcRendererGL> renderer)
+CfcGameEngine::CfcGameEngine(QSharedPointer<CfcRendererGL> renderer, QObject *parent) : QObject(parent)
 {
     this->mRenderer = renderer;
     this->mGameFieldGL = QSharedPointer<CfcGameFieldGL>(new CfcGameFieldGL(&this->mGameField));
     this->mUpdateTimer.setInterval(gameStateUpdateInterval);
     this->mSpawnTimer.setInterval(objectSpawnInterval);
+    this->mScore = 0;
 }
 //==========================================================================
 void CfcGameEngine::start()
 {
+    emit signalCurrentScore(this->mScore);
+
     slotSpawnNewObjects();
 
     connect(&this->mSpawnTimer, SIGNAL(timeout()), this, SLOT(slotSpawnNewObjects()), Qt::UniqueConnection);
@@ -26,6 +29,7 @@ void CfcGameEngine::start()
     connect(&this->mUpdateTimer, SIGNAL(timeout()), this, SLOT(slotUpdateGameState()), Qt::UniqueConnection);
     this->mUpdateTimer.start();
 
+    connect(this->mRenderer.data(), SIGNAL(signalClicked(QPointF)), this, SLOT(slotHandleClick(QPointF)), Qt::UniqueConnection);
 }
 //==========================================================================
 void CfcGameEngine::slotUpdateGameState()
@@ -47,7 +51,11 @@ void CfcGameEngine::updateExistingObjects()
         currObject->move(QPointF(0,currObject->fallSpeed()));
         //delete the object if it is outside of the game field
         if(currObject->position().ry()>this->mGameField.coords().bottom())
+        {
+            //decreasing score is disabled until I get parameters right
+            //decreaseScore(currObject->scorePoints());
             this->mGameField.deleteObject(i);
+        }
     }
 }
 //==========================================================================
@@ -58,6 +66,25 @@ void CfcGameEngine::slotSpawnNewObjects()
         CfcFallingObjectSP newObject = generateCircle();
 
         this->mGameField.addObject(newObject);
+    }
+}
+//==========================================================================
+void CfcGameEngine::slotHandleClick(QPointF pos)
+{
+    int objectsToCheck = this->mGameField.objectCount();
+    //going backwards to destroy most recent objects first
+    for(int i=objectsToCheck-1;i>-1;--i)
+    {
+        //for convenience
+        CfcFallingObjectSP currObject = this->mGameField.object(i);
+        //update objects position
+        if(currObject->contains(pos))
+        {
+            increaseScore(currObject->scorePoints());
+            this->mGameField.deleteObject(i);
+            renderCurrentState();
+            break;
+        }
     }
 }
 //==========================================================================
@@ -86,5 +113,18 @@ CfcFallingObjectSP CfcGameEngine::generateCircle()
 
     CfcFallingObjectSP newCircle(new CfcFallingCircle(pos,speed,score,radius));
     return newCircle;
+}
+//==========================================================================
+void CfcGameEngine::increaseScore(int pointsToAdd)
+{
+    this->mScore+=pointsToAdd;
+    emit signalCurrentScore(this->mScore);
+}
+//==========================================================================
+void CfcGameEngine::decreaseScore(int pointsToRemove)
+{
+    this->mScore-=pointsToRemove;
+    if(this->mScore<0) this->mScore = 0;
+    emit signalCurrentScore(this->mScore);
 }
 //==========================================================================

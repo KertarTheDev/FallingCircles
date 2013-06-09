@@ -13,11 +13,15 @@ public:
     void setVertexArray(QSharedPointer<QVector<float> > vArray){this->vertexArray = vArray;}
     void setColorArray(QSharedPointer<QVector<float> > cArray){this->colorArray = cArray;}
 
+signals:
+    void signalClicked(QPointF coords);
+
 protected:
 
     /*virtual*/ void initializeGL();
     /*virtual*/ void resizeGL(int nWidth, int nHeight);
     /*virtual*/ void paintGL();
+    /*virtual*/ void mouseReleaseEvent(QMouseEvent *mouseEvent);
 
 protected:
     //! These arrays must be set up to point to the scene data

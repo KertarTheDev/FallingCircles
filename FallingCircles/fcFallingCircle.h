@@ -12,6 +12,8 @@ public:
 
     virtual ~CfcFallingCircle(){}
 
+    /*virtual*/ bool contains(QPointF point);
+
     float radius() const {return this->mRadius;}
     void setRadius(float radius) {this->mRadius = radius;}
 

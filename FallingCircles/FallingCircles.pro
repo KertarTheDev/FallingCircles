@@ -35,3 +35,5 @@ HEADERS  += fcMainWindow.h \
         fcGameSettings.h \
         fcUtilities.h \
         fcGameFieldGL.h
+
+LIBS += -lGLU

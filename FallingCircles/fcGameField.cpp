@@ -25,7 +25,7 @@ void CfcGameField::addObject(CfcFallingObjectSP newObject)
 //==========================================================================
 void CfcGameField::deleteObject(int index)
 {
-    if(qBound(0,index,this->mFallingObjects.size()))
+    if(qBound(0,index,this->mFallingObjects.size())==index)
         this->mFallingObjects.removeAt(index);
 }
 //==========================================================================

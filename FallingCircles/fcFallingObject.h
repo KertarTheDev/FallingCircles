@@ -21,6 +21,7 @@ public:
 
     //Manipulation functions
     void move(QPointF movementVector);
+    virtual bool contains(QPointF /*point*/){return false;}
 
     //Getters/setters
     QPointF position() const {return this->mPosition;}

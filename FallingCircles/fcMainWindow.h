@@ -1,6 +1,7 @@
 #pragma once
 
 #include "fcRendererGL.h"
+class QLCDNumber;
 
 class CfcMainWindow : public QWidget
 {
@@ -8,10 +9,14 @@ class CfcMainWindow : public QWidget
     
 public:
     CfcMainWindow(QWidget *parent = 0);
-    ~CfcMainWindow();
+    ~CfcMainWindow(){}
 
     QSharedPointer<CfcRendererGL> getRenderer(){return this->mRenderer;}
 
+public slots:
+    void slotSetScore(int score);
+
 protected:
     QSharedPointer<CfcRendererGL> mRenderer;
+    QLCDNumber* mScoreWidget;
 };

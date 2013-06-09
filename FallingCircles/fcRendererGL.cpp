@@ -1,5 +1,8 @@
 #include "fcRendererGL.h"
 #include "fcGameSettings.h"
+#include <QMouseEvent>
+#include <GL/glu.h>
+
 
 using namespace NfcGameSettings;
 
@@ -66,5 +69,24 @@ void CfcRendererGL::paintGL()
 //Restore the drawing context
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
+}
+//==========================================================================
+void CfcRendererGL::mouseReleaseEvent(QMouseEvent *mouseEvent)
+{
+    QPoint pixelPos = mouseEvent->pos();
+
+    GLdouble modelView[16];
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelView);
+
+    GLdouble projection[16];
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    GLdouble posX,posY,posZ;
+    gluUnProject(pixelPos.rx(),viewport[3]-pixelPos.ry(),0,modelView,projection,viewport,&posX,&posY,&posZ);
+
+    emit signalClicked(QPointF(posX,posY));
 }
 //==========================================================================
